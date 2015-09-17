@@ -1,0 +1,22 @@
+{
+	"name": "congredi/rbac",
+	"description": "Congredi RBAC Package",
+	"authors": [
+		{
+			"name": "Andrei Kun",
+			"email": "andrei.kun@tss-yonder.com"
+		}
+	],
+	"require": {
+		"php": "> 5.5.9",
+		"illuminate/database": "5.1.*",
+		"illuminate/contracts": "5.1.*",
+		"illuminate/config": "5.1.*",
+		"illuminate/support": "5.1.*"
+	},
+	"autoload": {
+		"psr-4": {
+			"Congredi\\Rbac\\": "src"
+		}
+	}
+}
