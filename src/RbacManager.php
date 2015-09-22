@@ -92,7 +92,7 @@ class RbacManager implements ManagerInterface
 			$data = null;
 		}
 
-		$entity = $class::create();
+		$entity = $class::create($this->databaseAdapter);
 
 		return $entity->fill([
 			'name' => $row->name,
