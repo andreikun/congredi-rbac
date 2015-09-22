@@ -1,11 +1,11 @@
 <?php namespace Congredi\Rbac\Entities\Abstracts;
 
-use Congredi\Rbac\DatabaseAdapterInterface;
+use Congredi\Rbac\Adapters\DatabaseAdapterInterface;
 
 abstract class AbstractBaseEntity
 {
 	/**
-	 * @var \Congredi\Rbac\DatabaseAdapterInterface
+	 * @var \Congredi\Rbac\Adapters\DatabaseAdapterInterface
 	 */
 	protected $databaseAdapter;
 
