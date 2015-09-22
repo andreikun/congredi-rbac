@@ -15,13 +15,12 @@ abstract class AbstractBaseEntity
 	}
 
 	/**
-	 * Create new instance of the class.
-	 *
+	 * @param \Congredi\Rbac\Adapters\DatabaseAdapterInterface $databaseAdapter
 	 * @return static
 	 */
-	public static function create()
+	public static function create(DatabaseAdapterInterface $databaseAdapter)
 	{
-		return new static();
+		return new static($databaseAdapter);
 	}
 
 	/**

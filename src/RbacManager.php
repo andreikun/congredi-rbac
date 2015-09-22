@@ -40,7 +40,7 @@ class RbacManager implements ManagerInterface
 	 */
 	public function createRole($name)
 	{
-		$role = Role::create();
+		$role = Role::create($this->databaseAdapter);
 		$role->name = $name;
 
 		return $role;
@@ -52,7 +52,7 @@ class RbacManager implements ManagerInterface
 	 */
 	public function createPermission($name)
 	{
-		$permission = Permission::create();
+		$permission = Permission::create($this->databaseAdapter);
 		$permission->name = $name;
 
 		return $permission;
