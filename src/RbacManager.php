@@ -1,5 +1,6 @@
 <?php namespace Congredi\Rbac;
 
+use Congredi\Rbac\Adapters\DatabaseAdapterInterface;
 use Congredi\Rbac\Entities\Abstracts\AbstractItem;
 use Congredi\Rbac\Entities\Assignment;
 use Congredi\Rbac\Entities\Interfaces\RuleInterface;
@@ -25,7 +26,7 @@ class RbacManager implements ManagerInterface
 	protected $parents;
 
 	/**
-	 * @var \Congredi\Rbac\DatabaseAdapterInterface
+	 * @var \Congredi\Rbac\Adapters\DatabaseAdapterInterface
 	 */
 	protected $databaseAdapter;
 
