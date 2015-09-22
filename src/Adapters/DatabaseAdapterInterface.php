@@ -1,4 +1,4 @@
-<?php namespace Congredi\Rbac;
+<?php namespace Congredi\Rbac\Adapters;
 
 use Congredi\Rbac\Entities\Abstracts\AbstractItem;
 use Congredi\Rbac\Entities\Abstracts\AbstractRole;

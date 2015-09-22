@@ -1,6 +1,6 @@
-<?php namespace Congredi\Rbac\Fluent;
+<?php namespace Congredi\Rbac\Adapters\Fluent;
 
-use Congredi\Rbac\AbstractDatabaseAdapter;
+use Congredi\Rbac\Adapters\AbstractDatabaseAdapter;
 use Congredi\Rbac\Entities\Abstracts\AbstractItem;
 use Congredi\Rbac\Entities\Abstracts\AbstractRole;
 use Congredi\Rbac\Entities\Rule;

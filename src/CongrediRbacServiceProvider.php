@@ -1,17 +1,11 @@
 <?php namespace Congredi\Rbac;
 
-use Congredi\Rbac\Fluent\FluentDatabaseAdapter;
+use Congredi\Rbac\Adapters\DatabaseAdapterInterface;
+use Congredi\Rbac\Adapters\Fluent\FluentDatabaseAdapter;
 use \Illuminate\Support\ServiceProvider;
 
 class CongrediRbacServiceProvider extends ServiceProvider
 {
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = true;
-
 	/**
 	 * Boot the service provider.
 	 *
@@ -30,11 +24,13 @@ class CongrediRbacServiceProvider extends ServiceProvider
 	 */
 	protected function setupConfig()
 	{
-		$source = realpath(__DIR__ . '/../config/oauth2.php');
+		$source = realpath(__DIR__ . '/../config/rbac.php');
 
-		$this->publishes([$source => config_path('oauth2.php')]);
+		if (class_exists('Illuminate\Foundation\Application', false)) {
+			$this->publishes([$source => config_path('rbac.php')]);
+		}
 
-		$this->mergeConfigFrom($source, 'oauth2');
+		$this->mergeConfigFrom($source, 'rbac');
 	}
 
 	/**

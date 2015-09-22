@@ -1,4 +1,4 @@
-<?php namespace Congredi\Rbac;
+<?php namespace Congredi\Rbac\Adapters;
 
 
 abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
