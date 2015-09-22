@@ -102,7 +102,7 @@ abstract class AbstractItem extends AbstractBaseEntity implements ItemInterface
 	 * @param \Congredi\Rbac\Entities\Interfaces\ItemInterface $item
 	 * @return bool
 	 */
-	protected function detectLoop(ItemInterface $item)
+	protected function detectLoop($item)
 	{
 		if ($item->name === $this->name) {
 			return true;

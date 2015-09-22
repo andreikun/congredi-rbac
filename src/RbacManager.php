@@ -106,6 +106,26 @@ class RbacManager implements ManagerInterface
 	}
 
 	/**
+	 * @param $row
+	 * @return $this
+	 */
+	protected function populateRule($row)
+	{
+		if (!isset($row->data) || ($data = @unserialize($row->data)) === false) {
+			$data = null;
+		}
+
+		$entity = Role::create($this->databaseAdapter);
+
+		return $entity->fill([
+			'name' => $row->name,
+			'data' => $data,
+			'createdAt' => $row->created_at,
+			'updatedAt' => $row->updated_at,
+		]);
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getRules()
@@ -114,14 +134,14 @@ class RbacManager implements ManagerInterface
 			return $this->rules;
 		}
 
-		$rules = $this->databaseAdapter->getRules();
+		$results = $this->databaseAdapter->getRules();
 
-		$results = [];
-		foreach ($rules as $rule) {
-			$results[$rule->name] = unserialize($rule->data);
+		$this->rules = [];
+		foreach ($results as $result) {
+			$this->rules[$result->name] = unserialize($result->data);
 		}
 
-		return $results;
+		return $this->rules;
 	}
 
 	/**
@@ -235,7 +255,7 @@ class RbacManager implements ManagerInterface
 			return null;
 		}
 
-		$assignment = Assignment::create();
+		$assignment = Assignment::create($this->databaseAdapter);
 
 		return $assignment->fill([
 			'userId' => $row->user_id,
@@ -368,7 +388,7 @@ class RbacManager implements ManagerInterface
 
 		$results = [];
 		foreach ($assignments as $assignment) {
-			$object = Assignment::create();
+			$object = Assignment::create($this->databaseAdapter);
 			$results[$assignment->item_name] = $object->fill([
 				'userId' => $assignment->user_id,
 				'roleName' => $assignment->item_name,
