@@ -12,9 +12,9 @@ class CreateItemTable extends Migration
 			$table->increments('id');
 			$table->string('name', 250);
 			$table->integer('type');
-			$table->string('description', 250);
-			$table->string('rule_name', 250);
-			$table->text('data');
+			$table->string('description', 250)->nullable();
+			$table->string('rule_name', 250)->nullable();
+			$table->text('data')->nullable();
 			$table->timestamps();
 
 			$table->unique('name');

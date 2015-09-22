@@ -11,7 +11,7 @@ class CreateRuleTable extends Migration
 		Schema::create('rbac_rule', function(Blueprint $table) {
 			$table->increments('id');
 			$table->string('name', 250);
-			$table->text('data');
+			$table->text('data')->nullable();
 			$table->timestamps();
 
 			$table->unique('name');
