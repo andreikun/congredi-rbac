@@ -335,7 +335,7 @@ class RbacManager implements ManagerInterface
 
 		$result = [];
 		foreach ($items as $item) {
-			$items[$item->name] = $this->populateItem($item);
+			$result[$item->name] = $this->populateItem($item);
 		}
 
 		return $result;
@@ -560,5 +560,107 @@ class RbacManager implements ManagerInterface
 	public function removeAllRules()
 	{
 		$this->databaseAdapter->deleteAllRules();
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getParents($item)
+	{
+		$parentsList = $this->getParentsList();
+		$result = [];
+
+		if (isset($parentsList[$item->name])) {
+			foreach ($parentsList[$item->name] as $parent) {
+				$result[$parent] = true;
+			}
+		}
+
+		if (empty($result)) {
+			return [];
+		}
+
+		$items = $this->databaseAdapter->getItemsByNames(array_keys($result));
+
+		$results = [];
+		foreach ($items as $item) {
+			$results[$item->name] = $this->populateItem($item);
+		}
+
+		return $results;
+	}
+
+	/**
+	 * Returns the parents for every child.
+	 *
+	 * @return array the parents list. Each array key is a child item name,
+	 * and the corresponding array value is a list of parent item names.
+	 */
+	protected function getParentsList()
+	{
+		$children = $this->databaseAdapter->getAllItemChildren();
+
+		$results = [];
+		foreach ($children as $child) {
+			$results[$child->child][] = $child->parent;
+		}
+
+		return $results;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getParentItemsRecursive($item)
+	{
+		$parents = $this->getParents($item);
+		foreach ($parents as $key => $parent) {
+			$parent->parents = $this->getParentItemsRecursive($parent);
+		}
+		return $parents;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getChildItemsRecursive($item)
+	{
+		$children = $this->getChildren($item);
+		foreach ($children as $key => $child) {
+			$child->children = $this->getChildItemsRecursive($child);
+		}
+
+		return $children;
+	}
+
+	/**
+	 * Returns all child permissions and roles for a permission or role.
+	 *
+	 * @param $item
+	 * @return mixed
+	 */
+	protected function getChildren($item)
+	{
+		$childrenList = $this->getChildrenList();
+		$result = [];
+
+		if (isset($childrenList[$item->name])) {
+			foreach ($childrenList[$item->name] as $child) {
+				$result[$child] = true;
+			}
+		}
+
+		if (empty($result)) {
+			return [];
+		}
+
+		$items = $this->databaseAdapter->getItemsByNames(array_keys($result));
+
+		$results = [];
+		foreach ($items as $item) {
+			$results[$item->name] = $this->populateItem($item);
+		}
+
+		return $results;
 	}
 }

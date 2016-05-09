@@ -121,4 +121,25 @@ interface ManagerInterface
 	 * @return mixed
 	 */
 	public function getAssignments($userId);
+
+	/**
+	 * Returns all parent permissions and roles for a permission or role.
+	 *
+	 * @param $itemName
+	 * @return mixed
+	 */
+	public function getParents($itemName);
+
+	/**
+	 * @param $item object The auth item type (either AbstractItem::TYPE_PERMISSION or AbstractItem::TYPE_ROLE)
+	 * @return mixed Returns the item including a 'parents' attribute, containing the parents recursive.
+	 */
+	public function getParentItemsRecursive($item);
+
+	/**
+	 * @param $item object The auth item type (either AbstractItem::TYPE_PERMISSION or AbstractItem::TYPE_ROLE)
+	 * @return mixed Returns the item including a 'children' attribute, containing the children recursive.
+	 */
+	public function getChildItemsRecursive($item);
+
 }
