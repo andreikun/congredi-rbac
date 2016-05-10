@@ -18,4 +18,11 @@ abstract class AbstractRule extends AbstractBaseEntity implements RuleInterface
 	 * @var integer UNIX timestamp
 	 */
 	public $updatedAt;
+
+	/**
+	 * @return array
+	 */
+	public function __sleep() {
+		return ['name'];
+	}
 }
