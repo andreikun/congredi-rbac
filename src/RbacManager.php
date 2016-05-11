@@ -518,9 +518,11 @@ class RbacManager implements ManagerInterface
 	/**
 	 * @inheritdoc
 	 */
-	public function removeAll()
+	public function removeAll($includingAssignments = true)
 	{
-		$this->removeAllAssignments();
+		if ($includingAssignments) {
+			$this->removeAllAssignments();
+		}
 		$this->databaseAdapter->deleteAllParentChildAssoc();
 		$this->databaseAdapter->deleteAllItems();
 		$this->databaseAdapter->deleteAllRules();
