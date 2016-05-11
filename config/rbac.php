@@ -19,4 +19,5 @@ return [
 	'item_child_table' => 'rbac_item_child',
 	'assignment_table' => 'rbac_assignment',
 	'rule_table' => 'rbac_rule',
+	'default_roles' => [],
 ];

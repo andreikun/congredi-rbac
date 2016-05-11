@@ -30,9 +30,15 @@ class RbacManager implements ManagerInterface
 	 */
 	protected $databaseAdapter;
 
-	public function __construct(DatabaseAdapterInterface $databaseAdapter)
+	/**
+	 * @var array a list of role names that are assigned to every user automatically without calling [[assign()]].
+	 */
+	protected $defaultRoles = [];
+
+	public function __construct(DatabaseAdapterInterface $databaseAdapter, $defaultRoles)
 	{
 		$this->databaseAdapter = $databaseAdapter;
+		$this->defaultRoles = $defaultRoles;
 	}
 
 	/**
@@ -494,7 +500,7 @@ class RbacManager implements ManagerInterface
 			return false;
 		}
 
-		if (isset($assignments[$itemName])) {
+		if (isset($assignments[$itemName]) || in_array($itemName, $this->defaultRoles)) {
 			return true;
 		}
 
@@ -662,5 +668,61 @@ class RbacManager implements ManagerInterface
 		}
 
 		return $results;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getOrphanRoles()
+	{
+		return $this->getOrphanItems(AbstractItem::TYPE_ROLE);
+	}
+
+	/**
+	 * @param $type
+	 * @return array
+	 */
+	protected function getOrphanItems($type)
+	{
+		$parentsList = $this->getParentsList();
+
+		$items = $this->databaseAdapter->getItemsByType($type);
+
+		$result = [];
+		foreach ($items as $item) {
+			if (!array_key_exists($item->name, $parentsList)) {
+				$result[$item->name] = $this->populateItem($item);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param $type
+	 * @return array
+	 */
+	protected function getChildlessItems($type)
+	{
+		$childrenList = $this->getChildrenList();
+
+		$items = $this->databaseAdapter->getItemsByType($type);
+
+		$result = [];
+		foreach ($items as $item) {
+			if (!array_key_exists($item->name, $childrenList)) {
+				$result[$item->name] = $this->populateItem($item);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getChildlessPermissions()
+	{
+		return $this->getChildlessItems(AbstractItem::TYPE_PERMISSION);
 	}
 }

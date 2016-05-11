@@ -100,7 +100,7 @@ class CongrediRbacServiceProvider extends ServiceProvider
 	public function registerManager()
 	{
 		$this->app->singleton('rbac.manager', function ($app) {
-			$manager = new RbacManager($app->make(DatabaseAdapterInterface::class));
+			$manager = new RbacManager($app->make(DatabaseAdapterInterface::class), $this->app['config']->get('rbac.default_roles'));
 
 			return $manager;
 		});

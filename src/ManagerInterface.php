@@ -142,4 +142,18 @@ interface ManagerInterface
 	 */
 	public function getChildItemsRecursive($item);
 
+
+	/**
+	 * Returns all roles in the system that have no parent items.
+	 *
+	 * @return mixed
+	 */
+	public function getOrphanRoles();
+
+	/**
+	 * Returns all permissions in the system that have no child items.
+	 *
+	 * @return mixed
+	 */
+	public function getChildlessPermissions();
 }
